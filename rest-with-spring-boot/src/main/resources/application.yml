@@ -1,3 +1,5 @@
 spring:
     application:
         name: rest-with-spring-boot
+server:
+    port: 8080
