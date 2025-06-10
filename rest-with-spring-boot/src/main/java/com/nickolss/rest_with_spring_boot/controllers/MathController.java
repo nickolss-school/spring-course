@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nickolss.rest_with_spring_boot.exception.UnsupportedMathOperationException;
+
 @RestController
 @RequestMapping("/math")
 public class MathController {
@@ -12,18 +14,18 @@ public class MathController {
     @GetMapping("/sum/{numberOne}/{numberTwo}")
     public Double sum(
             @PathVariable("numberOne") String numberOne,
-            @PathVariable("numberTwo") String numberTwo) throws IllegalArgumentException {
+            @PathVariable("numberTwo") String numberTwo) throws UnsupportedMathOperationException {
 
         if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
-            throw new IllegalArgumentException("Please set a numeric value");
+            throw new UnsupportedMathOperationException("Please set a numeric value");
         }
 
         return convertToDouble(numberOne) + convertToDouble(numberTwo);
     }
 
-    private Double convertToDouble(String strNumber) throws IllegalArgumentException {
+    private Double convertToDouble(String strNumber) throws UnsupportedMathOperationException {
         if (strNumber == null || strNumber.isEmpty()) {
-            throw new IllegalArgumentException("Please set a numeric value");
+            throw new UnsupportedMathOperationException("Please set a numeric value");
         }
         String number = strNumber.replace(",", ".");
         return Double.parseDouble(number);
