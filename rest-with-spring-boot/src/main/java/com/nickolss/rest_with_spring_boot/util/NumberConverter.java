@@ -1,11 +1,11 @@
 package com.nickolss.rest_with_spring_boot.util;
 
-import com.nickolss.rest_with_spring_boot.exception.UnsupportedMathOperationException;
+import com.nickolss.rest_with_spring_boot.exception.ResourceNotFoundException;
 
 public class NumberConverter {
-    public static Double convertToDouble(String strNumber) throws UnsupportedMathOperationException {
+    public static Double convertToDouble(String strNumber) throws ResourceNotFoundException {
         if (strNumber == null || strNumber.isEmpty()) {
-            throw new UnsupportedMathOperationException("Please set a numeric value");
+            throw new ResourceNotFoundException("Please set a numeric value");
         }
         String number = strNumber.replace(",", ".");
         return Double.parseDouble(number);
