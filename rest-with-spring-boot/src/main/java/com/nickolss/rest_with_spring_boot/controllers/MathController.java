@@ -1,6 +1,5 @@
 package com.nickolss.rest_with_spring_boot.controllers;
 
-import com.nickolss.rest_with_spring_boot.exception.UnsupportedMathOperationException;
 import com.nickolss.rest_with_spring_boot.services.MathService;
 
 import org.springframework.web.bind.annotation.GetMapping;
