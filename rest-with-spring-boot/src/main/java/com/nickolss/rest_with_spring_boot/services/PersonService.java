@@ -3,14 +3,15 @@ package com.nickolss.rest_with_spring_boot.services;
 import com.nickolss.rest_with_spring_boot.exception.ResourceNotFoundException;
 import com.nickolss.rest_with_spring_boot.model.Person;
 import com.nickolss.rest_with_spring_boot.repositories.PersonRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Service
 public class PersonService {
-    private Logger logger = Logger.getLogger(PersonService.class.getName());
+    private Logger logger = LoggerFactory.getLogger(PersonService.class.getName());
 
     @Autowired
     private PersonRepository personRepository;
