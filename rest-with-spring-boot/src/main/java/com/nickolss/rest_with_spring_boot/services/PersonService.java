@@ -2,11 +2,16 @@ package com.nickolss.rest_with_spring_boot.services;
 
 import com.nickolss.rest_with_spring_boot.exception.ResourceNotFoundException;
 import com.nickolss.rest_with_spring_boot.model.Person;
+import com.nickolss.rest_with_spring_boot.model.dto.PersonDto;
 import com.nickolss.rest_with_spring_boot.repositories.PersonRepository;
+
+import static com.nickolss.rest_with_spring_boot.mapper.ObjectMapper.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -16,24 +21,24 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
-    public Person findById(Long id) {
+    public PersonDto findById(Long id) {
         logger.info("Finding one person...");
-        return personRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No records found for this id."));
+        return parseObject(personRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this id.")), PersonDto.class);
     }
 
-    public List<Person> findAll() {
+    public List<PersonDto> findAll() {
         logger.info("Finding all people...");
-        return personRepository.findAll();
+        return parseListObjects(personRepository.findAll(), PersonDto.class);
     }
 
-    public Person create(Person person) {
+    public PersonDto create(PersonDto personDto) {
         logger.info("Creating person...");
 
-        return personRepository.save(person);
+        return parseObject(personRepository.save(parseObject(personDto, Person.class)), PersonDto.class);
     }
 
-    public Person update(Person person) {
+    public PersonDto update(PersonDto person) {
         logger.info("Updating person...");
         Person entity = personRepository.findById(person.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this id."));
@@ -43,7 +48,7 @@ public class PersonService {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        return personRepository.save(entity);
+        return parseObject(personRepository.save(entity), PersonDto.class);
     }
 
     public void delete(Long id) {

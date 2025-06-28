@@ -1,6 +1,7 @@
 package com.nickolss.rest_with_spring_boot.controllers;
 
-import com.nickolss.rest_with_spring_boot.model.Person;
+import com.nickolss.rest_with_spring_boot.mapper.ObjectMapper;
+import com.nickolss.rest_with_spring_boot.model.dto.PersonDto;
 import com.nickolss.rest_with_spring_boot.services.PersonService;
 
 import java.util.List;
@@ -15,15 +16,16 @@ import org.springframework.web.bind.annotation.*;
 public class PersonController {
     @Autowired
     private PersonService personService;
+    private ObjectMapper mapper;
 
     /* É importante o produces e consumes para a documentação do swagger */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Person> findAll() {
+    public List<PersonDto> findAll() {
         return personService.findAll();
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person findById(@PathVariable("id") Long id) {
+    public PersonDto findById(@PathVariable("id") Long id) {
         return personService.findById(id);
     }
 
@@ -31,7 +33,7 @@ public class PersonController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public Person create(@RequestBody Person person) {
+    public PersonDto create(@RequestBody PersonDto person) {
         return personService.create(person);
     }
 
@@ -39,7 +41,7 @@ public class PersonController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public Person update(@RequestBody Person person) {
+    public PersonDto update(@RequestBody PersonDto person) {
         return personService.update(person);
     }
 
