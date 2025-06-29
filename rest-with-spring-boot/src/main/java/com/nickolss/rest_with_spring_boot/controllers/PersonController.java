@@ -1,7 +1,8 @@
 package com.nickolss.rest_with_spring_boot.controllers;
 
 import com.nickolss.rest_with_spring_boot.mapper.ObjectMapper;
-import com.nickolss.rest_with_spring_boot.model.dto.PersonDto;
+import com.nickolss.rest_with_spring_boot.model.dto.v1.PersonDto;
+import com.nickolss.rest_with_spring_boot.model.dto.v2.PersonDtoV2;
 import com.nickolss.rest_with_spring_boot.services.PersonService;
 
 import java.util.List;
@@ -35,6 +36,15 @@ public class PersonController {
     )
     public PersonDto create(@RequestBody PersonDto person) {
         return personService.create(person);
+    }
+
+    @PostMapping(
+            value = "/v2",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public PersonDtoV2 createV2(@RequestBody PersonDtoV2 person) {
+        return personService.createV2(person);
     }
 
     @PutMapping(

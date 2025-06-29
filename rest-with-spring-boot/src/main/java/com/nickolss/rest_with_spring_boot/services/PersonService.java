@@ -2,7 +2,8 @@ package com.nickolss.rest_with_spring_boot.services;
 
 import com.nickolss.rest_with_spring_boot.exception.ResourceNotFoundException;
 import com.nickolss.rest_with_spring_boot.model.Person;
-import com.nickolss.rest_with_spring_boot.model.dto.PersonDto;
+import com.nickolss.rest_with_spring_boot.model.dto.v1.PersonDto;
+import com.nickolss.rest_with_spring_boot.model.dto.v2.PersonDtoV2;
 import com.nickolss.rest_with_spring_boot.repositories.PersonRepository;
 
 import static com.nickolss.rest_with_spring_boot.mapper.ObjectMapper.*;
@@ -36,6 +37,12 @@ public class PersonService {
         logger.info("Creating person...");
 
         return parseObject(personRepository.save(parseObject(personDto, Person.class)), PersonDto.class);
+    }
+
+    public PersonDtoV2 createV2(PersonDtoV2 personDto) {
+        logger.info("Creating person...");
+
+        return parseObject(personRepository.save(parseObject(personDto, Person.class)), PersonDtoV2.class);
     }
 
     public PersonDto update(PersonDto person) {
