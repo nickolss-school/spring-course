@@ -20,8 +20,8 @@ public class Person {
     @Column(name = "last_name", nullable = false, length = 80)
     private String lastName;
 
-    @Column(name = "birth_day")
-    private Date birthDay;
+//    @Column(name = "birth_day")
+//    private Date birthDay;
 
     @Column(nullable = false)
     private String address;
@@ -64,13 +64,13 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public Date getBirthDay() {
-        return birthDay;
-    }
-
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
-    }
+//    public Date getBirthDay() {
+//        return birthDay;
+//    }
+//
+//    public void setBirthDay(Date birthDay) {
+//        this.birthDay = birthDay;
+//    }
 
     public String getAddress() {
         return address;
@@ -92,11 +92,11 @@ public class Person {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(birthDay, person.birthDay) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
+        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, birthDay, address, gender);
+        return Objects.hash(id, firstName, lastName, address, gender);
     }
 }

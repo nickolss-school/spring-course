@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/api/person/v1")
 public class PersonController {
     @Autowired
     private PersonService personService;
@@ -38,14 +38,14 @@ public class PersonController {
         return personService.create(person);
     }
 
-    @PostMapping(
-            value = "/v2",
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE
-    )
-    public PersonDtoV2 createV2(@RequestBody PersonDtoV2 person) {
-        return personService.createV2(person);
-    }
+//    @PostMapping(
+//            value = "/v2",
+//            produces = MediaType.APPLICATION_JSON_VALUE,
+//            consumes = MediaType.APPLICATION_JSON_VALUE
+//    )
+//    public PersonDtoV2 createV2(@RequestBody PersonDtoV2 person) {
+//        return personService.createV2(person);
+//    }
 
     @PutMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
