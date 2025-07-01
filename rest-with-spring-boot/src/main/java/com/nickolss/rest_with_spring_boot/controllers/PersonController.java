@@ -5,6 +5,7 @@ import com.nickolss.rest_with_spring_boot.model.dto.v1.PersonDto;
 import com.nickolss.rest_with_spring_boot.model.dto.v2.PersonDtoV2;
 import com.nickolss.rest_with_spring_boot.services.PersonService;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,10 @@ public class PersonController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public PersonDto findById(@PathVariable("id") Long id) {
-        return personService.findById(id);
+        var person = personService.findById(id);
+        person.setBirthDay(new Date());
+        person.setPhoneNumber("+55 11 91234-5678");
+        return person;
     }
 
     @PostMapping(
