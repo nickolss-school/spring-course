@@ -4,11 +4,10 @@ package com.nickolss.rest_with_spring_boot.model.dto.v1;
 //import com.fasterxml.jackson.annotation.JsonProperty;
 //import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.nickolss.rest_with_spring_boot.serializer.GenderSerializer;
+import com.nickolss.rest_with_spring_boot.serialization.GenderSerializer;
 import java.util.Date;
 import java.util.Objects;
 

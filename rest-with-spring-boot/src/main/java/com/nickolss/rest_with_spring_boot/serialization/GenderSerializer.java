@@ -1,4 +1,4 @@
-package com.nickolss.rest_with_spring_boot.serializer;
+package com.nickolss.rest_with_spring_boot.serialization;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
