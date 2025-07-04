@@ -14,6 +14,13 @@ spring:
 
     show-sql: false
 
+spring-doc:
+  paths-to-match:
+    - /api/person/v1/**
+
+  swagger-ui:
+    use-root-path: true
+
 server:
   port: 8080
 
