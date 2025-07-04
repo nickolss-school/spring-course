@@ -1,5 +1,6 @@
 package com.nickolss.rest_with_spring_boot.services;
 
+import com.nickolss.rest_with_spring_boot.controllers.PersonController;
 import com.nickolss.rest_with_spring_boot.exception.ResourceNotFoundException;
 import com.nickolss.rest_with_spring_boot.model.Person;
 import com.nickolss.rest_with_spring_boot.model.dto.v1.PersonDto;
@@ -10,7 +11,9 @@ import static com.nickolss.rest_with_spring_boot.mapper.ObjectMapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
 import java.util.List;
 
@@ -23,19 +26,29 @@ public class PersonService {
 
     public PersonDto findById(Long id) {
         logger.info("Finding one person...");
-        return parseObject(personRepository.findById(id)
+
+        var dto = parseObject(personRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this id.")), PersonDto.class);
+
+        addHateosLinks(dto);
+
+        return dto;
     }
 
     public List<PersonDto> findAll() {
         logger.info("Finding all people...");
-        return parseListObjects(personRepository.findAll(), PersonDto.class);
+        var persons = parseListObjects(personRepository.findAll(), PersonDto.class);
+        persons.forEach(this::addHateosLinks);
+        return persons;
     }
 
     public PersonDto create(PersonDto personDto) {
         logger.info("Creating person...");
 
-        return parseObject(personRepository.save(parseObject(personDto, Person.class)), PersonDto.class);
+        var dto = parseObject(personRepository.save(parseObject(personDto, Person.class)), PersonDto.class);
+        addHateosLinks(dto);
+
+        return dto;
     }
 
 //    public PersonDtoV2 createV2(PersonDtoV2 personDto) {
@@ -43,6 +56,7 @@ public class PersonService {
 //
 //        return parseObject(personRepository.save(parseObject(personDto, Person.class)), PersonDtoV2.class);
 //    }
+
 
     public PersonDto update(PersonDto person) {
         logger.info("Updating person...");
@@ -54,7 +68,9 @@ public class PersonService {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        return parseObject(personRepository.save(entity), PersonDto.class);
+        var dto = parseObject(personRepository.save(entity), PersonDto.class);
+        addHateosLinks(dto);
+        return dto;
     }
 
     public void delete(Long id) {
@@ -63,5 +79,56 @@ public class PersonService {
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this id."));
 
         personRepository.delete(entity);
+    }
+
+    private void addHateosLinks(PersonDto dto) {
+        dto.add(
+                WebMvcLinkBuilder.linkTo(
+                                WebMvcLinkBuilder
+                                        .methodOn(PersonController.class)
+                                        .findById(dto.getId())
+                        )
+                        .withSelfRel()
+                        .withType("GET")
+        );
+        dto.add(
+                WebMvcLinkBuilder.linkTo(
+                                WebMvcLinkBuilder
+                                        .methodOn(PersonController.class)
+                                        .delete(dto.getId())
+                        )
+                        .withRel("delete")
+                        .withType("DELETE")
+        );
+
+        dto.add(
+                WebMvcLinkBuilder.linkTo(
+                                WebMvcLinkBuilder
+                                        .methodOn(PersonController.class)
+                                        .findAll()
+                        )
+                        .withRel("find_all")
+                        .withType("GET")
+        );
+
+        dto.add(
+                WebMvcLinkBuilder.linkTo(
+                                WebMvcLinkBuilder
+                                        .methodOn(PersonController.class)
+                                        .create(dto)
+                        )
+                        .withRel("create")
+                        .withType("POST")
+        );
+
+        dto.add(
+                WebMvcLinkBuilder.linkTo(
+                                WebMvcLinkBuilder
+                                        .methodOn(PersonController.class)
+                                        .update(dto)
+                        )
+                        .withRel("update")
+                        .withType("PUT`")
+        );
     }
 }

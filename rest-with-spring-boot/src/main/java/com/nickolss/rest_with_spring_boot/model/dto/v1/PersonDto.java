@@ -8,12 +8,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.nickolss.rest_with_spring_boot.serialization.GenderSerializer;
+import org.springframework.hateoas.RepresentationModel;
+
 import java.util.Date;
 import java.util.Objects;
 
 //@JsonPropertyOrder({"id", "address", "first_name", "last_name", "gender"})
 //@JsonFilter("PersonFilter")
-public class PersonDto {
+public class PersonDto extends RepresentationModel<PersonDto> {
 
     private Long id;
 
