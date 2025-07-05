@@ -1,13 +1,10 @@
 package com.nickolss.rest_with_spring_boot.controllers;
 
 import com.nickolss.rest_with_spring_boot.mapper.ObjectMapper;
-import com.nickolss.rest_with_spring_boot.model.dto.v1.PersonDto;
-import com.nickolss.rest_with_spring_boot.model.dto.v2.PersonDtoV2;
+import com.nickolss.rest_with_spring_boot.model.dto.v1.BookDto;
+import com.nickolss.rest_with_spring_boot.model.dto.v1.BookDto;
+import com.nickolss.rest_with_spring_boot.services.BookService;
 import com.nickolss.rest_with_spring_boot.services.PersonService;
-
-import java.util.Date;
-import java.util.List;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,31 +12,33 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/person/v1")
-@Tag(name = "People", description = "Endpoints for managing people")
-public class PersonController {
+@RequestMapping("/api/book/v1")
+@Tag(name = "Book", description = "Endpoints for managing books")
+public class BookController {
     @Autowired
-    private PersonService personService;
+    private BookService bookService;
     private ObjectMapper mapper;
 
     /* É importante o produces e consumes para a documentação do swagger */
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
-    @Operation(summary = "Find all People", tags = "People", responses = {
+    @Operation(summary = "Find all Books", tags = "Book", responses = {
             @ApiResponse(
-                    description = "Sucess",
+                    description = "Success",
                     responseCode = "200",
                     content = {
                             @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     array = @ArraySchema(
                                             schema = @Schema(
-                                                    implementation = PersonDto.class
+                                                    implementation = BookDto.class
                                             )
                                     )
                             )
@@ -51,63 +50,54 @@ public class PersonController {
             @ApiResponse(description = "Not found", responseCode = "404", content = @Content),
             @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
     })
-    public List<PersonDto> findAll() {
-        return personService.findAll();
+    public List<BookDto> findAll() {
+        return bookService.findAll();
     }
 
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
-    @Operation(summary = "Find by id", tags = "People", responses = {
-            @ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonDto.class))),
+    @Operation(summary = "Find by id", tags = "Book", responses = {
+            @ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = BookDto.class))),
             @ApiResponse(description = "Bad request", responseCode = "400", content = @Content),
             @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
             @ApiResponse(description = "Not found", responseCode = "404", content = @Content),
             @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
     })
-    public PersonDto findById(@PathVariable("id") Long id) {
-        return personService.findById(id);
+    public BookDto findById(@PathVariable("id") Long id) {
+        return bookService.findById(id);
     }
 
     @PostMapping(
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
-    @Operation(summary = "Create a Person", tags = "People", responses = {
-            @ApiResponse(description = "Created", responseCode = "201", content = @Content(schema = @Schema(implementation = PersonDto.class))),
+    @Operation(summary = "Create a Book", tags = "Book", responses = {
+            @ApiResponse(description = "Created", responseCode = "201", content = @Content(schema = @Schema(implementation = BookDto.class))),
             @ApiResponse(description = "Bad request", responseCode = "400", content = @Content),
             @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
             @ApiResponse(description = "Not found", responseCode = "404", content = @Content),
             @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
     })
-    public PersonDto create(@RequestBody PersonDto person) {
-        return personService.create(person);
+    public BookDto create(@RequestBody BookDto person) {
+        return bookService.create(person);
     }
-
-//    @PostMapping(
-//            value = "/v2",
-//            produces = MediaType.APPLICATION_JSON_VALUE,
-//            consumes = MediaType.APPLICATION_JSON_VALUE
-//    )
-//    public PersonDtoV2 createV2(@RequestBody PersonDtoV2 person) {
-//        return personService.createV2(person);
-//    }
 
     @PutMapping(
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE}
     )
-    @Operation(summary = "Updating a person", tags = "People", responses = {
-            @ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonDto.class))),
+    @Operation(summary = "Updating a book", tags = "Book", responses = {
+            @ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = BookDto.class))),
             @ApiResponse(description = "Bad request", responseCode = "400", content = @Content),
             @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
             @ApiResponse(description = "Not found", responseCode = "404", content = @Content),
             @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
     })
-    public PersonDto update(@RequestBody PersonDto person) {
-        return personService.update(person);
+    public BookDto update(@RequestBody BookDto person) {
+        return bookService.update(person);
     }
 
     @DeleteMapping(value = "/{id}")
-    @Operation(summary = "Deleting a Person", tags = "People", responses = {
+    @Operation(summary = "Deleting a Person", tags = "Book", responses = {
             @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
             @ApiResponse(description = "Bad request", responseCode = "400", content = @Content),
             @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
@@ -115,7 +105,7 @@ public class PersonController {
             @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
     })
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        personService.delete(id);
+        bookService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
