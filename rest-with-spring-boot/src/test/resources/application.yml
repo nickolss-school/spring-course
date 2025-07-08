@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: rest-with-spring-boot
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+    show-sql: false
+
+spring-doc:
+  paths-to-match:
+    - /api/person/v1/**
+    - /api/book/v1/**
+
+  swagger-ui:
+    use-root-path: true
+
+server:
+  port: 8888
+
+logging:
+  level:
+    root: INFO # global
