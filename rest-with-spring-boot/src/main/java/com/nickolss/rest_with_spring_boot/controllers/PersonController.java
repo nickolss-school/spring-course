@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/person/v1")
 @Tag(name = "People", description = "Endpoints for managing people")
+//@CrossOrigin(origins = "http://localhost:8080")
 public class PersonController {
     @Autowired
     private PersonService personService;
@@ -63,6 +64,7 @@ public class PersonController {
             @ApiResponse(description = "Not found", responseCode = "404", content = @Content),
             @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
     })
+    //@CrossOrigin(origins = "http://localhost:8080")
     public PersonDto findById(@PathVariable("id") Long id) {
         return personService.findById(id);
     }
@@ -78,6 +80,7 @@ public class PersonController {
             @ApiResponse(description = "Not found", responseCode = "404", content = @Content),
             @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
     })
+    //@CrossOrigin(origins = "http://localhost:8080")
     public PersonDto create(@RequestBody PersonDto person) {
         return personService.create(person);
     }

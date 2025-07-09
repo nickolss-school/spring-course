@@ -28,3 +28,6 @@ server:
 logging:
   level:
     root: INFO # global
+
+cors:
+  originPatterns:  http://localhost:8080,http://localhost:3000,https://google.com
