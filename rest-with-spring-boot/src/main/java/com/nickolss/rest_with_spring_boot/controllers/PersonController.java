@@ -109,6 +109,18 @@ public class PersonController {
         return personService.update(person);
     }
 
+    @PatchMapping(value = "/{id}")
+    @Operation(summary = "Disable a Person", tags = "People", responses = {
+            @ApiResponse(description = "Success", responseCode = "200", content = @Content),
+            @ApiResponse(description = "Bad request", responseCode = "400", content = @Content),
+            @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+            @ApiResponse(description = "Not found", responseCode = "404", content = @Content),
+            @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
+    })
+    public ResponseEntity<PersonDto> disablePerson(@PathVariable Long id) {
+        return ResponseEntity.ok().body(personService.disablePerson(id));
+    }
+
     @DeleteMapping(value = "/{id}")
     @Operation(summary = "Deleting a Person", tags = "People", responses = {
             @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
@@ -121,4 +133,6 @@ public class PersonController {
         personService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+
 }

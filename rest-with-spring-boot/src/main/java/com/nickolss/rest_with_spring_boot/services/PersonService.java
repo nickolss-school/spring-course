@@ -8,6 +8,7 @@ import com.nickolss.rest_with_spring_boot.repositories.PersonRepository;
 
 import static com.nickolss.rest_with_spring_boot.mapper.ObjectMapper.*;
 
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,19 @@ public class PersonService {
         personRepository.delete(entity);
     }
 
+    @Transactional
+    public PersonDto disablePerson(Long id) {
+        logger.info("Disabling one person...");
+        personRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this id."));
+
+        personRepository.disablePerson(id);
+        var entity = personRepository.findById(id).get();
+        var dto = parseObject(entity, PersonDto.class);
+        addHateosLinks(dto);
+        return dto;
+    }
+
     private void addHateosLinks(PersonDto dto) {
         dto.add(
                 WebMvcLinkBuilder.linkTo(
@@ -128,7 +142,17 @@ public class PersonService {
                                         .update(dto)
                         )
                         .withRel("update")
-                        .withType("PUT`")
+                        .withType("PUT")
+        );
+
+        dto.add(
+                WebMvcLinkBuilder.linkTo(
+                                WebMvcLinkBuilder
+                                        .methodOn(PersonController.class)
+                                        .disablePerson(dto.getId())
+                        )
+                        .withRel("disable")
+                        .withType("PATCH")
         );
     }
 }

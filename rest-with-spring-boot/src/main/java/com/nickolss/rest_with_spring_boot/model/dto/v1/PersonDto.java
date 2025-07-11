@@ -38,6 +38,8 @@ public class PersonDto extends RepresentationModel<PersonDto> {
     @JsonSerialize(using = GenderSerializer.class)
     private String gender;
 
+    private Boolean enabled;
+
     //private String sensitiveData;
 
     public PersonDto() {
@@ -107,15 +109,24 @@ public class PersonDto extends RepresentationModel<PersonDto> {
         this.gender = gender;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         PersonDto personDto = (PersonDto) o;
-        return Objects.equals(id, personDto.id) && Objects.equals(firstName, personDto.firstName) && Objects.equals(lastName, personDto.lastName) && Objects.equals(phoneNumber, personDto.phoneNumber) && Objects.equals(birthDay, personDto.birthDay) && Objects.equals(address, personDto.address) && Objects.equals(gender, personDto.gender);
+        return Objects.equals(id, personDto.id) && Objects.equals(firstName, personDto.firstName) && Objects.equals(lastName, personDto.lastName) && Objects.equals(phoneNumber, personDto.phoneNumber) && Objects.equals(birthDay, personDto.birthDay) && Objects.equals(address, personDto.address) && Objects.equals(gender, personDto.gender) && Objects.equals(enabled, personDto.enabled);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, phoneNumber, birthDay, address, gender);
+        return Objects.hash(super.hashCode(), id, firstName, lastName, phoneNumber, birthDay, address, gender, enabled);
     }
 }
