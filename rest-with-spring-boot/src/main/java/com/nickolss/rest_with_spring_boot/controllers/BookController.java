@@ -2,9 +2,7 @@ package com.nickolss.rest_with_spring_boot.controllers;
 
 import com.nickolss.rest_with_spring_boot.mapper.ObjectMapper;
 import com.nickolss.rest_with_spring_boot.model.dto.v1.BookDto;
-import com.nickolss.rest_with_spring_boot.model.dto.v1.BookDto;
 import com.nickolss.rest_with_spring_boot.services.BookService;
-import com.nickolss.rest_with_spring_boot.services.PersonService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
 import java.util.List;
 
 @RestController

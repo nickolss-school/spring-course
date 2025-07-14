@@ -1,12 +1,9 @@
 package com.nickolss.rest_with_spring_boot.services;
 
 import com.nickolss.rest_with_spring_boot.controllers.BookController;
-import com.nickolss.rest_with_spring_boot.controllers.PersonController;
 import com.nickolss.rest_with_spring_boot.exception.ResourceNotFoundException;
 import com.nickolss.rest_with_spring_boot.model.Book;
-import com.nickolss.rest_with_spring_boot.model.Person;
 import com.nickolss.rest_with_spring_boot.model.dto.v1.BookDto;
-import com.nickolss.rest_with_spring_boot.model.dto.v1.PersonDto;
 import com.nickolss.rest_with_spring_boot.repositories.BookRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

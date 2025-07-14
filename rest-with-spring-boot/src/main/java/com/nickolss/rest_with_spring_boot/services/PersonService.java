@@ -5,18 +5,15 @@ import com.nickolss.rest_with_spring_boot.exception.ResourceNotFoundException;
 import com.nickolss.rest_with_spring_boot.model.Person;
 import com.nickolss.rest_with_spring_boot.model.dto.v1.PersonDto;
 import com.nickolss.rest_with_spring_boot.repositories.PersonRepository;
-
 import static com.nickolss.rest_with_spring_boot.mapper.ObjectMapper.*;
-
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-
-import java.util.List;
 
 @Service
 public class PersonService {
@@ -36,11 +33,18 @@ public class PersonService {
         return dto;
     }
 
-    public List<PersonDto> findAll() {
+    public Page<PersonDto> findAll(Pageable pageable) {
         logger.info("Finding all people...");
-        var persons = parseListObjects(personRepository.findAll(), PersonDto.class);
-        persons.forEach(this::addHateosLinks);
-        return persons;
+
+        var people = personRepository.findAll(pageable);
+
+        var peopleWithLinks = people.map(person -> {
+                var dto = parseObject(person, PersonDto.class);
+                addHateosLinks(dto);
+                return dto;
+        });
+
+        return peopleWithLinks;
     }
 
     public PersonDto create(PersonDto personDto) {
@@ -119,7 +123,7 @@ public class PersonService {
                 WebMvcLinkBuilder.linkTo(
                                 WebMvcLinkBuilder
                                         .methodOn(PersonController.class)
-                                        .findAll()
+                                        .findAll(0, 12)
                         )
                         .withRel("find_all")
                         .withType("GET")
