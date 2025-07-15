@@ -123,7 +123,7 @@ public class PersonService {
                 WebMvcLinkBuilder.linkTo(
                                 WebMvcLinkBuilder
                                         .methodOn(PersonController.class)
-                                        .findAll(0, 12)
+                                        .findAll(0, 12, "asc")
                         )
                         .withRel("find_all")
                         .withType("GET")
